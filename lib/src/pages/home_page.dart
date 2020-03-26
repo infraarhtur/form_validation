@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:form_validation/src/blocs/provider.dart';
+// import 'package:form_validation/src/blocs/provider.dart';
 import 'package:form_validation/src/models/producto_model.dart';
 import 'package:form_validation/src/providers/productos_providers.dart';
 
@@ -8,7 +8,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = Provider.of(context);
+    // final bloc = Provider.of(context);
 
     return Scaffold(
       appBar: AppBar(title: Text('home')),
@@ -55,13 +55,36 @@ class HomePage extends StatelessWidget {
      
       productosProvider.borrarProducto(producto.id);
       } ,
-      child: ListTile(
+      child: Card(
+        child: Column(
+          children: <Widget>[
+
+            (producto.fotoUrl ==null || producto.fotoUrl == '') 
+            ?   Image(image: AssetImage('assets/no-photo.png'))
+            : FadeInImage(
+              placeholder:  AssetImage('assets/jar-loading.gif'),
+               image: NetworkImage(producto.fotoUrl),
+               height: 300.0,
+               width: double.infinity,
+               fit: BoxFit.cover
+
+               ) ,
+
+  ListTile(
         title: Text('${producto.titulo}-${producto.valor} '),
         subtitle: Text('${producto.id}'),
         onTap: () {
-          Navigator.pushNamed(context, 'producto');
+          Navigator.pushNamed(context, 'producto', arguments:producto );
         },
       ),
+
+
+          ],
+        ),
+      )
     );
   }
+
+
+
 }
