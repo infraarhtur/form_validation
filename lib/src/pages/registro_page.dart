@@ -3,9 +3,11 @@ import 'package:form_validation/src/blocs/provider.dart';
 import 'package:form_validation/src/providers/usuario_providers.dart';
 import 'package:form_validation/src/utils/utils.dart';
 
-class LoginPage extends StatelessWidget {
 
-  final usuarioProvider = new UsuarioProvider();
+class RegistroPage extends StatelessWidget {
+
+final usuarioProvider = new UsuarioProvider();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,7 +95,7 @@ class LoginPage extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 Text(
-                  'ingreso',
+                  'Registro',
                   style: TextStyle(fontSize: 20.0),
                 ),
                 SizedBox(
@@ -114,10 +116,10 @@ class LoginPage extends StatelessWidget {
         FlatButton(
           onPressed: (){
 
-            Navigator.pushReplacementNamed(context, 'registro');
+            Navigator.pushReplacementNamed(context, 'login');
           }, 
           
-          child: Text('Crear cuenta')
+          child: Text('¿ya tienes cuenta?')
           
           ),
           SizedBox(
@@ -195,16 +197,17 @@ class LoginPage extends StatelessWidget {
             textColor: Colors.white,
             onPressed: snapshot.hasData
                 ? () {
-                    _login(bloc, context);
+                    _register(bloc, context);
                   }
                 : null);
       },
     );
   }
 
-  _login(LoginBloc bloc, BuildContext context) async{
+  _register(LoginBloc bloc, BuildContext context) async{
 
-Map<String, dynamic> info =  await usuarioProvider.logIn(bloc.email, bloc.password);
+final info = await usuarioProvider.nuevoUsuario(bloc.email, bloc.password);
+
 
 if(info['mensaje'] == null || info['mensaje'] == '' ){
  Navigator.pushReplacementNamed (context, 'home');
@@ -213,7 +216,6 @@ if(info['mensaje'] == null || info['mensaje'] == '' ){
   mostrarAlerta(context,info['mensaje'].toString());
 
 }
-
-    //
+    // Navigator.pushReplacementNamed (context, 'home');
   }
 }
